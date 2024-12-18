@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  background-color: black;
+  height: 80vh;
+  width: 100%;
+}
+.left {
+  color: white;
+  width: 20vw;
+  margin-left: 10%;
+  /* background-color: blue; */
+}
+.map {
+  width: 60vw;
+  height: 70vh;
+  /* padding-right: 10%;
+  padding-left: 10%; */
+}
+.info {
+  margin: 1rem;
+  gap: 1rem;
+  text-align: center;
+}
