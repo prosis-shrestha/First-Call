@@ -26,7 +26,7 @@ app.get("/api/drivers/:dname", async (req, res) => {
 
 const io = socketio(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST"],
     credentials: true,
   },
