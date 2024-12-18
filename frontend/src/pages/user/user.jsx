@@ -32,7 +32,7 @@ const user = () => {
 
     const userIcon = new Icon({
         iconUrl: "./userIcon.png",
-        iconSize: [70, 70],
+        iconSize: [60, 60],
     });
 
     const RoutingMachine = React.memo(({ loc, destination }) => {
