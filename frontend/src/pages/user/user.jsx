@@ -30,6 +30,11 @@ const user = () => {
         iconSize: [70, 70],
     });
 
+    const userIcon = new Icon({
+        iconUrl: "./userIcon.png",
+        iconSize: [70, 70],
+    });
+
     const RoutingMachine = React.memo(({ loc, destination }) => {
         const map = useMap();
         useEffect(() => {
@@ -185,7 +190,7 @@ const user = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={[ownLat, ownLon]}></Marker>
+                        <Marker position={[ownLat, ownLon]} icon={userIcon}></Marker>
                         {allDrivers && !showRouting && allDrivers
                             .map((ambulance) => (
                                 <Marker

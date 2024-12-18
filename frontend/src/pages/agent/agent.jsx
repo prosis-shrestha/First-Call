@@ -29,6 +29,11 @@ const agent = () => {
         iconSize: [70, 70],
     });
 
+    const userIcon = new Icon({
+        iconUrl: "./userIcon.png",
+        iconSize: [70, 70],
+    });
+
     const RoutingMachine = React.memo(({ loc, destination }) => {
         const map = useMap();
         useEffect(() => {
@@ -195,7 +200,7 @@ const agent = () => {
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             <Marker icon={customIcon} position={[ownLat, ownLon]}></Marker>
-                            {userName && <Marker position={[userLat, userLon]}></Marker>}
+                            {userName && <Marker position={[userLat, userLon]} icon={userIcon}></Marker>}
                             {showRouting && <RoutingMachine loc={{ ownLat, ownLon }} destination={{ userLat, userLon }} />}
                         </MapContainer>
                     </div >
