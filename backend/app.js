@@ -11,7 +11,14 @@ const Driver = require("./models/Driver");
 const server = http.createServer(app);
 
 dotenv.config();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 app.get("/api/drivers/:dname", async (req, res) => {
   try {
