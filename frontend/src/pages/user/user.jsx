@@ -41,20 +41,22 @@ const user = () => {
             const routingControl = L.Routing.control({
                 waypoints: [
                     latLng(loc.ownLat, loc.ownLon),
-                    latLng(destination.ambuLat, destination.ambuLon),
+                    // latLng(destination.ambuLat, destination.ambuLon),
+                    latLng(27, 83),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
                 showAlternatives: false,
+                show: false,
                 createMarker: () => null,
             }).addTo(map);
 
-            // // Automatically fit the map to the route
-            // routingControl.on('routesfound', function (e) {
-            //     const route = e.routes[0]; // Get the first (or best) route
-            //     const bounds = L.latLngBounds(route.coordinates); // Get the bounds of the route
-            //     map.fitBounds(bounds); // Adjust the map to fit the bounds
-            // });
+            // Automatically fit the map to the route
+            routingControl.on('routesfound', function (e) {
+                const route = e.routes[0]; // Get the first (or best) route
+                const bounds = L.latLngBounds(route.coordinates); // Get the bounds of the route
+                map.fitBounds(bounds); // Adjust the map to fit the bounds
+            });
 
             return () => {
                 if (routingControl) {
@@ -65,69 +67,6 @@ const user = () => {
         }, [loc, map, destination]);
         return null;
     });
-
-    // const RoutingMachine = React.memo(({ loc, destination }) => {
-    //     const map = useMap();
-    //     const routingControlRef = useRef(null);
-    //     const prevWaypointsRef = useRef(null);
-
-    //     useEffect(() => {
-    //         if (!map || !loc || !destination) return;
-
-    //         const newWaypoints = [
-    //             L.latLng(loc.ownLat, loc.ownLon),
-    //             L.latLng(destination.ambuLat, destination.ambuLon)
-    //         ];
-
-    //         // Check if waypoints have actually changed
-    //         const waypointsChanged = !prevWaypointsRef.current ||
-    //             !areWaypointsEqual(prevWaypointsRef.current, newWaypoints);
-
-    //         if (!routingControlRef.current) {
-    //             // Initial creation of routing control
-    //             routingControlRef.current = L.Routing.control({
-    //                 waypoints: newWaypoints,
-    //                 routeWhileDragging: false,
-    //                 addWaypoints: false,
-    //                 showAlternatives: false,
-    //                 createMarker: () => null,
-    //                 fitSelectedRoutes: false, // Prevent automatic fitting
-    //             }).addTo(map);
-
-    //             // Only fit bounds on initial route creation
-    //             routingControlRef.current.on('routesfound', function (e) {
-    //                 const route = e.routes[0];
-    //                 const bounds = L.latLngBounds(route.coordinates);
-    //                 map.fitBounds(bounds, { padding: [50, 50] });
-    //             });
-    //         } else if (waypointsChanged) {
-    //             // Update existing route without recreating the control
-    //             routingControlRef.current.setWaypoints(newWaypoints);
-    //         }
-
-    //         prevWaypointsRef.current = newWaypoints;
-
-    //         return () => {
-    //             if (routingControlRef.current) {
-    //                 map.removeControl(routingControlRef.current);
-    //                 routingControlRef.current = null;
-    //             }
-    //         };
-    //     }, [map, loc, destination]);
-
-    //     return null;
-    // });
-
-    // Helper function to compare waypoints
-    // const areWaypointsEqual = (waypoints1, waypoints2) => {
-    //     if (!waypoints1 || !waypoints2) return false;
-    //     return waypoints1.every((wp1, i) => {
-    //         const wp2 = waypoints2[i];
-    //         return wp1 && wp2 &&
-    //             wp1.lat === wp2.lat &&
-    //             wp1.lng === wp2.lng;
-    //     });
-    // };
 
     useEffect(() => {
         socket.on("new-dlocation", (location) => {
@@ -247,7 +186,10 @@ const user = () => {
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <Marker position={[ownLat, ownLon]} icon={userIcon}></Marker>
-                        {allDrivers && !showRouting && allDrivers
+                        {allDrivers && allDrivers
+                            .filter((ambulance) => {
+                                return (!ambuName || (ambulance.dname === ambuName && showRouting));
+                            })
                             .map((ambulance) => (
                                 <Marker
                                     key={ambulance.dname}

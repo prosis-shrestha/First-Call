@@ -39,7 +39,8 @@ const agent = () => {
             if (!map || !loc || !destination) return;
             const routingControl = L.Routing.control({
                 waypoints: [
-                    latLng(loc.ownLat, loc.ownLon),
+                    // latLng(loc.ownLat, loc.ownLon),
+                    latLng(27, 83),
                     latLng(destination.userLat, destination.userLon),
                 ],
                 routeWhileDragging: false,
