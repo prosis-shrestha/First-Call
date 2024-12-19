@@ -16,7 +16,6 @@ const agent = () => {
     const [ownLon, setOwnLon] = useState(null);
     const [userLat, setUserLat] = useState(null);
     const [userLon, setUserLon] = useState(null);
-    // const [dname, setDname] = useState("")
     const [userName, setUserName] = useState("");
     const [watchId, setWatchId] = useState(null);
     const [showRouting, setShowRouting] = useState(false);
@@ -96,8 +95,6 @@ const agent = () => {
         });
 
         socket.on("driver-available", (driverInfo) => {
-            console.log(driverInfo.dname)
-            console.log(dname)
             if (driverInfo.isActive === true && driverInfo.dname === dname)
                 setIsActive(true)
         })
@@ -107,8 +104,6 @@ const agent = () => {
         };
     }, [dname]);
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
     useEffect(() => {
         if (navigator.geolocation) {
             const id = navigator.geolocation.watchPosition((position) => {
@@ -145,7 +140,7 @@ const agent = () => {
             fetchDriverStatus();
         }
     }, [dname]);
-    // }
+
 
     useEffect(() => {
         return () => {
@@ -175,7 +170,6 @@ const agent = () => {
     return (
         <>
             <Navbar />
-            {/* {ownLon ? */}
             <div className={styles.main}>
                 <div className={styles.left}>
                     <div className={styles.info}>
@@ -205,15 +199,6 @@ const agent = () => {
                         </MapContainer>
                     </div >
                 }
-                {/* :
-                 (
-                     <form onSubmit={handleSubmit}>
-                         <label className="form-label">Driver name</label>
-                       <input type="text" className="form-control" required value={dname} onChange={(e) => setDname(e.target.value)} />
-                      <button type="submit" className="btn btn-primary">Submit</button>
-                     </form>
-                 )
-             } */}
             </div>
         </>
     )

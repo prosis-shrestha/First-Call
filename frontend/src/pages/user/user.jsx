@@ -18,7 +18,6 @@ const user = () => {
     const [ambuName, setAmbuName] = useState(null);
     const [ambuLat, setAmbuLat] = useState(null);
     const [ambuLon, setAmbuLon] = useState(null);
-    // const [name, setName] = useState("")
     const [allDrivers, setAllDrivers] = useState([])
     const [watchId, setWatchId] = useState(null);
     const [showRouting, setShowRouting] = useState(false);
@@ -99,7 +98,6 @@ const user = () => {
             setAmbuLat(driverInfo.latitude)
             setAmbuLon(driverInfo.longitude)
             setShowRouting(true);
-            console.log(driverInfo)
         })
 
         socket.on("driver-available", (driverInfo) => {
@@ -122,8 +120,7 @@ const user = () => {
 
     useEffect(() => {
         socket.on("ride-complete", (data) => {
-            console.log(data)
-            console.log(ambuName)
+
             if (data == ambuName) {
                 setShowRouting(false)
                 setAmbuLat(null)
@@ -136,10 +133,6 @@ const user = () => {
         });
     }, [ambuName]);
 
-    // console.log(showRouting, ambuName, ambuLat, ambuLon)
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
     useEffect(() => {
         if (navigator.geolocation) {
             const id = navigator.geolocation.watchPosition((position) => {
@@ -163,7 +156,7 @@ const user = () => {
             setWatchId(id);
         }
     }, [name]);
-    // }
+
 
     const handleClick = (ambulanceName) => {
         socket.emit("user-call", { name, ambulanceName, ownLat, ownLon });
@@ -181,7 +174,6 @@ const user = () => {
     return (
         <div className={styles.main}>
             <Navbar />
-            {/* {ownLon ? */}
             {ownLat &&
                 <div className={styles.map}>
 
@@ -214,15 +206,6 @@ const user = () => {
                 <p>Welcome! {name}. Click on Ambulance markers and Call to instantly get your Ambulance.</p><br></br>
                 {showRouting && <p>Driver: {ambuName}</p>}
             </div>
-            {/* :
-                (
-                    <form onSubmit={handleSubmit}>
-                        <label className="form-label">Name</label>
-                        <input type="text" className="form-control" required value={name} onChange={(e) => setName(e.target.value)} />
-                        <button type="submit" className="btn btn-primary">Submit</button>
-                    </form>
-                )
-            } */}
         </div>
     )
 }

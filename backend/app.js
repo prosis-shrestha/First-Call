@@ -9,7 +9,6 @@ const Location = require("./models/Location");
 const Driver = require("./models/Driver");
 
 const server = http.createServer(app);
-const PORT = process.env.PORT;
 
 dotenv.config();
 app.use(cors());
