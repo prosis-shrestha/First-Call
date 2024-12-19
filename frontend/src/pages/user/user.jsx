@@ -41,8 +41,8 @@ const user = () => {
             const routingControl = L.Routing.control({
                 waypoints: [
                     latLng(loc.ownLat, loc.ownLon),
-                    // latLng(destination.ambuLat, destination.ambuLon),
-                    latLng(27, 83),
+                    latLng(destination.ambuLat, destination.ambuLon),
+                    // latLng(27, 83),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
