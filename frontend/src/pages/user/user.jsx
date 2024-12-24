@@ -175,7 +175,7 @@ const user = () => {
 
 
     return (
-        <>
+        <div className="bg-black">
 
             <Navbar />
             <div className="bg-black">
@@ -214,7 +214,7 @@ const user = () => {
                     </div >
                 }
             </div>
-        </>
+        </div>
     )
 }
 
