@@ -165,7 +165,7 @@ const agent = () => {
     }
 
     return (
-        <>
+        <div className="bg-black">
             <Navbar />
             <div className="absolute bottom-16 z-10 left-1/2 transform -translate-x-1/2">
                 {!isActive && !showRouting &&
@@ -178,25 +178,23 @@ const agent = () => {
                 }
                 {showRouting && <Button onClick={() => handleComplete()}>Complete Ride</Button>}
             </div>
-            <div className="bg-black">
-                <div className="text-white text-center pb-3">
-                    <p>Welcome! {dname}</p>
-                </div>
-                {ownLat &&
-                    <div className=" relative h-[75vh] px-5 sm:px-20 z-0 ">
-                        <MapContainer center={[ownLat, ownLon]} zoom={15} style={{ height: "100%" }}>
-                            <TileLayer
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker icon={customIcon} position={[ownLat, ownLon]}></Marker>
-                            {userName && <Marker position={[userLat, userLon]} icon={userIcon}></Marker>}
-                            {showRouting && <RoutingMachine loc={{ ownLat, ownLon }} destination={{ userLat, userLon }} />}
-                        </MapContainer>
-                    </div >
-                }
+            <div className="text-white text-center pb-3">
+                <p>Welcome! {dname}</p>
             </div>
-        </>
+            {ownLat &&
+                <div className=" relative h-[75vh] px-5 sm:px-20 z-0 ">
+                    <MapContainer center={[ownLat, ownLon]} zoom={15} style={{ height: "100%" }}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker icon={customIcon} position={[ownLat, ownLon]}></Marker>
+                        {userName && <Marker position={[userLat, userLon]} icon={userIcon}></Marker>}
+                        {showRouting && <RoutingMachine loc={{ ownLat, ownLon }} destination={{ userLat, userLon }} />}
+                    </MapContainer>
+                </div >
+            }
+        </div>
     )
 }
 
