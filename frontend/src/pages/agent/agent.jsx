@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import { Icon, latLng } from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation } from 'react-router-dom';
 import styles from './agent.module.css';
 import Button from '../../components/Button/Button'
@@ -33,15 +33,16 @@ const agent = () => {
         iconSize: [60, 60],
     });
 
-    const RoutingMachine = React.memo(({ loc, destination }) => {
+    const RoutingMachine = ({ loc, destination }) => {
         const map = useMap();
         useEffect(() => {
-            if (!map || !loc || !destination) return;
+            // if (!map || !loc || !destination) return;
             const routingControl = L.Routing.control({
                 waypoints: [
-                    latLng(loc.ownLat, loc.ownLon),
-                    // latLng(27, 83),
-                    latLng(destination.userLat, destination.userLon),
+                    // latLng(loc.ownLat, loc.ownLon),
+                    latLng(27, 85),
+                    latLng(27, 83),
+                    // latLng(destination.userLat, destination.userLon),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
@@ -55,15 +56,10 @@ const agent = () => {
                 const bounds = L.latLngBounds(route.coordinates); // Get the bounds of the route
                 map.fitBounds(bounds); // Adjust the map to fit the bounds
             });
-
-            return () => {
-                if (routingControl) {
-                    map.removeControl(routingControl);
-                }
-            };
-        }, [loc, map, destination]);
+            return () => map.removeControl(routingControl);
+        }, []);
         return null;
-    });
+    };
 
     useEffect(() => {
         const handleBeforeUnload = () => {
@@ -171,24 +167,23 @@ const agent = () => {
     return (
         <>
             <Navbar />
-            <div className={styles.main}>
-                <div className={styles.left}>
-                    <div className={styles.info}>
-                        <p>Welcome! {dname}</p>
-                        <br></br>
-                        {!isActive && !showRouting &&
-                            <Button onClick={() => handleActiveStatus()}>Go Online</Button>}
-                        {userName && !showRouting &&
-                            <>
-                                <p>{userName} asked for Ambulance</p>
-                                <Button onClick={() => handleAccept()}>Accept</Button>
-                            </>
-                        }
-                        {showRouting && <Button onClick={() => handleComplete()}>Complete Ride</Button>}
+            <div className="absolute bottom-16 z-10 left-1/2 transform -translate-x-1/2">
+                {!isActive && !showRouting &&
+                    <Button onClick={() => handleActiveStatus()}>Go Online</Button>}
+                {userName && !showRouting &&
+                    <div className='bg-black text-center p-4 rounded-3xl'>
+                        <p className="text-white">{userName} asked for Ambulance</p><br></br>
+                        <Button onClick={() => handleAccept()}>Accept</Button>
                     </div>
+                }
+                {showRouting && <Button onClick={() => handleComplete()}>Complete Ride</Button>}
+            </div>
+            <div className="bg-black">
+                <div className="text-white text-center pb-3">
+                    <p>Welcome! {dname}</p>
                 </div>
                 {ownLat &&
-                    <div className={styles.map}>
+                    <div className=" relative h-[75vh] px-5 sm:px-20 z-0 ">
                         <MapContainer center={[ownLat, ownLon]} zoom={15} style={{ height: "100%" }}>
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

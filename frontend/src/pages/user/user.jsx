@@ -41,8 +41,8 @@ const user = () => {
             const routingControl = L.Routing.control({
                 waypoints: [
                     latLng(loc.ownLat, loc.ownLon),
-                    latLng(destination.ambuLat, destination.ambuLon),
-                    // latLng(27, 83),
+                    // latLng(destination.ambuLat, destination.ambuLon),
+                    latLng(27, 85),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
@@ -175,44 +175,46 @@ const user = () => {
 
 
     return (
-        <div className={styles.main}>
-            <Navbar />
-            {ownLat &&
-                <div className={styles.map}>
+        <>
 
-                    <MapContainer center={[ownLat, ownLon]} zoom={15} style={{ height: "100%" }}>
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={[ownLat, ownLon]} icon={userIcon}></Marker>
-                        {allDrivers && allDrivers
-                            .filter((ambulance) => {
-                                return (!ambuName || (ambulance.dname === ambuName && showRouting));
-                            })
-                            .map((ambulance) => (
-                                <Marker
-                                    key={ambulance.dname}
-                                    position={[ambulance.latitude, ambulance.longitude]}
-                                    icon={customIcon}>
-                                    {ambulance.isActive ? <Popup>
-                                        {ambulance.dname}
-                                        {ambulance.isActive && <button onClick={() => handleClick(ambulance.dname)}>Call</button>}
-                                    </Popup> :
-                                        <Popup>
-                                            {ambulance.dname} Occupied
-                                        </Popup>}
-                                </Marker>
-                            ))}
-                        {showRouting && <RoutingMachine loc={{ ownLat, ownLon }} destination={{ ambuLat, ambuLon }} />}
-                    </MapContainer>
-                </div >
-            }
-            <div className={styles.info}>
-                <p>Welcome! {name}. Click on Ambulance markers and Call to instantly get your Ambulance.</p><br></br>
-                {showRouting && <p>Driver: {ambuName}</p>}
+            <Navbar />
+            <div className="bg-black">
+                <div className="px-5 text-white text-center py-3">
+                    <p>Welcome! {name}. Click on Ambulance markers and Call to instantly get your Ambulance.</p><br></br>
+                    {showRouting && <p>Driver: {ambuName}</p>}
+                </div>
+                {ownLat &&
+                    <div className="h-[70vh] px-5 sm:px-20">
+                        <MapContainer center={[ownLat, ownLon]} zoom={15} style={{ height: "100%" }}>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[ownLat, ownLon]} icon={userIcon}></Marker>
+                            {allDrivers && allDrivers
+                                .filter((ambulance) => {
+                                    return (!ambuName || (ambulance.dname === ambuName && showRouting));
+                                })
+                                .map((ambulance) => (
+                                    <Marker
+                                        key={ambulance.dname}
+                                        position={[ambulance.latitude, ambulance.longitude]}
+                                        icon={customIcon}>
+                                        {ambulance.isActive ? <Popup>
+                                            {ambulance.dname}
+                                            {ambulance.isActive && <button className="bg-green-500 text-white border-2 p-2 rounded-lg m-1" onClick={() => handleClick(ambulance.dname)}>Call</button>}
+                                        </Popup> :
+                                            <Popup>
+                                                {ambulance.dname} Occupied
+                                            </Popup>}
+                                    </Marker>
+                                ))}
+                            {showRouting && <RoutingMachine loc={{ ownLat, ownLon }} destination={{ ambuLat, ambuLon }} />}
+                        </MapContainer>
+                    </div >
+                }
             </div>
-        </div>
+        </>
     )
 }
 
