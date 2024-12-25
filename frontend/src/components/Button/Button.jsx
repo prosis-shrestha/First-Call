@@ -1,5 +1,4 @@
-import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 
 const Button = styled.button`
@@ -15,8 +14,8 @@ const Button = styled.button`
     letter-spacing: 2px;
     transition: background 0.3s ease;
     &:hover {
-      background: transparent;
+      background: #E25C5E;
     }
-  `;
+  `
 
 export default Button

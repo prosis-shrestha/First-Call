@@ -5,9 +5,8 @@ import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import { Icon, latLng } from "leaflet";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
-import styles from './agent.module.css';
 import Button from '../../components/Button/Button'
 import Navbar from "../../components/Navbar/Navbar"
 
@@ -35,14 +34,39 @@ const agent = () => {
 
     const RoutingMachine = ({ loc, destination }) => {
         const map = useMap();
+        // useEffect(() => {
+
+        //     const routingControl = L.Routing.control({
+        //         waypoints: [
+        //             latLng(loc.ownLat, loc.ownLon),
+        //             latLng(27, 85),
+        //             latLng(destination.userLat, destination.userLon),
+        //         ],
+        //         routeWhileDragging: false,
+        //         addWaypoints: false,
+        //         showAlternatives: false,
+        //         createMarker: () => null,
+        //     }).addTo(map);
+
+        //     // Automatically fit the map to the route
+        //     routingControl.on('routesfound', function (e) {
+        //         const route = e.routes[0]; // Get the first (or best) route
+        //         const bounds = L.latLngBounds(route.coordinates); // Get the bounds of the route
+        //         map.fitBounds(bounds); // Adjust the map to fit the bounds
+        //     });
+
+        //     if (routingControl) {
+        //         map.removeControl(routingControl);
+        //     }
+
+        // }, []);
+
         useEffect(() => {
-            // if (!map || !loc || !destination) return;
             const routingControl = L.Routing.control({
                 waypoints: [
-                    // latLng(loc.ownLat, loc.ownLon),
-                    latLng(27, 85),
-                    latLng(27, 83),
-                    // latLng(destination.userLat, destination.userLon),
+                    L.latLng(loc.ownLat, loc.ownLon),
+                    L.latLng(27, 85),
+                    //   L.latLng(destination.userLat, destination.userLon),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
@@ -51,12 +75,15 @@ const agent = () => {
             }).addTo(map);
 
             // Automatically fit the map to the route
-            routingControl.on('routesfound', function (e) {
-                const route = e.routes[0]; // Get the first (or best) route
-                const bounds = L.latLngBounds(route.coordinates); // Get the bounds of the route
-                map.fitBounds(bounds); // Adjust the map to fit the bounds
+            routingControl.on('routesfound', (e) => {
+                const route = e.routes[0];
+                const bounds = L.latLngBounds(route.coordinates);
+                map.fitBounds(bounds);
             });
-            return () => map.removeControl(routingControl);
+
+            return () => {
+                map.removeControl(routingControl);
+            };
         }, []);
         return null;
     };

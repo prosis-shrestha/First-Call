@@ -5,10 +5,9 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import { Icon, latLng } from "leaflet";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import Navbar from "../../components/Navbar/Navbar"
-import styles from './user.module.css';
 
 
 const user = () => {
@@ -34,15 +33,14 @@ const user = () => {
         iconSize: [60, 60],
     });
 
-    const RoutingMachine = React.memo(({ loc, destination }) => {
+    const RoutingMachine = (({ loc, destination }) => {
         const map = useMap();
         useEffect(() => {
-            if (!map || !loc || !destination) return;
             const routingControl = L.Routing.control({
                 waypoints: [
                     latLng(loc.ownLat, loc.ownLon),
-                    // latLng(destination.ambuLat, destination.ambuLon),
-                    latLng(27, 85),
+                    latLng(destination.ambuLat, destination.ambuLon),
+                    // latLng(27, 85),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
@@ -59,12 +57,10 @@ const user = () => {
             });
 
             return () => {
-                if (routingControl) {
-                    map.removeControl(routingControl);
-                }
+                map.removeControl(routingControl);
             };
 
-        }, [loc, map, destination]);
+        }, []);
         return null;
     });
 
@@ -178,7 +174,6 @@ const user = () => {
         <div className="bg-black">
 
             <Navbar />
-            {/* <div className="bg-black"> */}
             <div className="px-5 text-white text-center py-3">
                 <p>Welcome! {name}. Click on Ambulance markers and Call to instantly get your Ambulance.</p><br></br>
                 {showRouting && <p>Driver: {ambuName}</p>}
@@ -213,7 +208,6 @@ const user = () => {
                     </MapContainer>
                 </div >
             }
-            {/* </div> */}
         </div>
     )
 }
