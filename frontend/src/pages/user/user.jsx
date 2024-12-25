@@ -1,6 +1,5 @@
 import React from 'react'
 import socket from "../../socket";
-import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
@@ -26,11 +25,13 @@ const user = () => {
     const customIcon = new Icon({
         iconUrl: "./ambulanceicon.png",
         iconSize: [70, 70],
+        iconAnchor: [30, 60],
     });
 
     const userIcon = new Icon({
         iconUrl: "./userIcon.png",
         iconSize: [60, 60],
+        iconAnchor: [30, 60],
     });
 
     const RoutingMachine = (({ loc, destination }) => {
@@ -185,7 +186,7 @@ const user = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={[ownLat, ownLon]} icon={userIcon}></Marker>
+                        <Marker position={[ownLat, ownLon]} icon={userIcon} ></Marker>
                         {allDrivers && allDrivers
                             .filter((ambulance) => {
                                 return (!ambuName || (ambulance.dname === ambuName && showRouting));

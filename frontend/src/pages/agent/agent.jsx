@@ -1,6 +1,5 @@
 import React from 'react'
 import socket from "../../socket";
-import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
@@ -25,11 +24,13 @@ const agent = () => {
     const customIcon = new Icon({
         iconUrl: "./ambulanceicon.png",
         iconSize: [70, 70],
+        iconAnchor: [30, 60],
     });
 
     const userIcon = new Icon({
         iconUrl: "./userIcon.png",
         iconSize: [60, 60],
+        iconAnchor: [30, 60],
     });
 
     const RoutingMachine = ({ loc, destination }) => {

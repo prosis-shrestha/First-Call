@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Navbar from "../../components/Navbar/Navbar"
-import styles from './homepage.module.css';
 import Button from '../../components/Button/Button'
 
 const Homepage = () => {
@@ -20,8 +19,6 @@ const Homepage = () => {
         e.preventDefault();
         navigate('/agent', { state: { dname: dname } });
     };
-
-
 
     return (
         <div
