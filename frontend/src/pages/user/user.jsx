@@ -197,7 +197,7 @@ const user = () => {
                                     icon={customIcon}>
                                     {ambulance.isActive ? <Popup>
                                         {ambulance.dname}
-                                        {ambulance.isActive && <button className="bg-green-500 text-white border-2 p-2 rounded-lg m-1" onClick={() => handleClick(ambulance.dname)}>Call</button>}
+                                        {ambulance.isActive && <button className="bg-green-500 text-white border-2 p-2 rounded-lg m-1 active:bg-green-300" onClick={() => handleClick(ambulance.dname)}>Call</button>}
                                     </Popup> :
                                         <Popup>
                                             {ambulance.dname} Occupied

@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-routing-machine";
-import { Icon, latLng } from "leaflet";
+import { Icon, latLng, } from "leaflet";
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import Button from '../../components/Button/Button'
@@ -34,39 +34,12 @@ const agent = () => {
 
     const RoutingMachine = ({ loc, destination }) => {
         const map = useMap();
-        // useEffect(() => {
-
-        //     const routingControl = L.Routing.control({
-        //         waypoints: [
-        //             latLng(loc.ownLat, loc.ownLon),
-        //             latLng(27, 85),
-        //             latLng(destination.userLat, destination.userLon),
-        //         ],
-        //         routeWhileDragging: false,
-        //         addWaypoints: false,
-        //         showAlternatives: false,
-        //         createMarker: () => null,
-        //     }).addTo(map);
-
-        //     // Automatically fit the map to the route
-        //     routingControl.on('routesfound', function (e) {
-        //         const route = e.routes[0]; // Get the first (or best) route
-        //         const bounds = L.latLngBounds(route.coordinates); // Get the bounds of the route
-        //         map.fitBounds(bounds); // Adjust the map to fit the bounds
-        //     });
-
-        //     if (routingControl) {
-        //         map.removeControl(routingControl);
-        //     }
-
-        // }, []);
-
         useEffect(() => {
             const routingControl = L.Routing.control({
                 waypoints: [
-                    L.latLng(loc.ownLat, loc.ownLon),
-                    L.latLng(27, 85),
-                    //   L.latLng(destination.userLat, destination.userLon),
+                    latLng(loc.ownLat, loc.ownLon),
+                    // latLng(27, 85),
+                    latLng(destination.userLat, destination.userLon),
                 ],
                 routeWhileDragging: false,
                 addWaypoints: false,
@@ -74,7 +47,6 @@ const agent = () => {
                 createMarker: () => null,
             }).addTo(map);
 
-            // Automatically fit the map to the route
             routingControl.on('routesfound', (e) => {
                 const route = e.routes[0];
                 const bounds = L.latLngBounds(route.coordinates);
